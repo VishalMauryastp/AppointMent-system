@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* .swiper-button-prev,
+.swiper-button-next {
+  @media (max-width: 786px) {
+    display: none;
+  }
+} */
+.swiper-button-prev:after, .swiper-button-next:after{
+  font-size: 20px !important;
+}
+
+.swiper-button-prev, .swiper-button-next{
+  @media (max-width: 786px) {
+    display: none !important;
+  }
+}
+
+.b {
+  border: 1px solid red;
+}
