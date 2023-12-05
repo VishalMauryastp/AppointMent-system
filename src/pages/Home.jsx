@@ -26,10 +26,12 @@ const Home = () => {
           <div className="flex flex-wrap justify-center gap-4 ">
             {data.map((val, i) => {
               return (
-                <button key={i} className="rounded flex-[0_0_40%] border-2  lg:flex-[0_0_30%] py-4"
-                onClick={()=>{
-                    navigate("/slot-booking", {state:val})
-                }}
+                <button
+                  key={i}
+                  className="rounded flex-[0_0_40%] max-sm:flex-[0_0_100%] border-2  lg:flex-[0_0_30%] py-4"
+                  onClick={() => {
+                    navigate("/slot-booking", { state: val });
+                  }}
                 >
                   <h1 className="text-2xl font-semibold">{val.name}</h1>
                   <p>{val.specialization}</p>

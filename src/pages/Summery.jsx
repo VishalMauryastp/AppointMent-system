@@ -22,7 +22,7 @@ const Summery = () => {
             />
           </div>
           <div>
-            <h1 className="text-[20px] md:text-2xl font-bold font-serif">
+            <h1 className="text-[18px] md:text-2xl font-bold font-serif">
               {doctor?.dr_data?.name}
             </h1>
             <p className="text-[14px]">{doctor?.dr_data?.specialization}</p>
@@ -33,7 +33,7 @@ const Summery = () => {
         </div>
         <hr className="mt-8" />
         <h2 className="text-lg font-semibold mt-8 ">Appointment Summary</h2>
-        <div className="py-10 flex justify-between">
+        <div className="py-10 flex max-sm:flex-col justify-between">
           <div className="flex gap-4">
             <FaClinicMedical className="text-2xl text-green-500" />
             <div className="">
@@ -48,7 +48,7 @@ const Summery = () => {
               </p>
             </div>
           </div>
-          <div>
+          <div className=" max-md:my-8">
             <div className="flex gap-2 items-center">
               <IoMdTime className="text-2xl text-green-500" />
               <p>{doctor?.app_time}</p>
