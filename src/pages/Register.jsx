@@ -5,45 +5,103 @@ import { toast } from "react-toastify";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 
 const Register = () => {
+  // const BASE_URL = import.meta.env.VITE_URL;
+
+  // console.log(BASE_URL);
+
   const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
+
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
   function handleChange(event) {
     const { name, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
+
+    // Reset validation errors on input change
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: "Please enter a valid email address",
+      }));
+      return;
+    }
+
+    // Password match validation
+    if (formData.password !== formData.confirmPassword) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        // password: "Passwords do not match",
+        confirmPassword: "Passwords do not match with confirm password ",
+      }));
+      return;
+    }
+
     const { confirmPassword, ...data } = formData;
 
-    console.log(data);
+    // console.log(data);
+
     axios({
       method: "post",
-      url: "",
-
-      data: formData,
+      url: `http://localhost:8080/api/v1/register`,
+      data: data,
     })
       .then((res) => {
-        console.log("data sent", res);
+        console.log("Response:", res.data);
+        toast.success(res.data.message);
+        setTimeout(() => {
+          handleNavigate();
+        }, 1000);
       })
-      .catch((err) => {
-        console.log("Error", err);
+      .catch((error) => {
+        // Handle errors here
+
+        if (
+          error?.response?.data?.data?.code &&
+          error?.response?.data?.data?.code == "11000"
+        ) {
+          return toast.error("Email already exist !");
+        }
+        if (error?.response?.data?.error?.details[0]?.message) {
+          toast.error(error?.response?.data?.error?.details[0]?.message);
+          return;
+        }
+
+        // toast.error(error.message);
+        console.error("Error:", error);
       });
 
-    // setFormData({
-    //   fullName: "",
-    //   email: "",
-    //   password: "",
-    //   confirmPassword: "",
-    // });
+    setFormData({
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
 
     // Add any further logic here, such as sending the data to a server
   }
@@ -126,6 +184,9 @@ const Register = () => {
                   onChange={handleChange}
                   className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {errors.email && (
+                  <p className="mt-2 text-red-500 text-sm">{errors.email}</p>
+                )}
               </div>
             </div>
 
@@ -150,6 +211,9 @@ const Register = () => {
                   onChange={handleChange}
                   className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {errors.password && (
+                  <p className="mt-2 text-red-500 text-sm">{errors.password}</p>
+                )}
               </div>
             </div>
 
@@ -171,6 +235,11 @@ const Register = () => {
                   onChange={handleChange}
                   className="px-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                {errors.confirmPassword && (
+                  <p className="mt-2 text-red-500 text-sm">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
             </div>
 

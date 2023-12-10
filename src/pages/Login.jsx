@@ -1,9 +1,15 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useLogin } from "../context/LoginProvider";
 
 export default function Login() {
+  const [login, setLogin] = useLogin();
+  const [navigatetion, setNavigatetion] = useState();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // console.log(import.meta.env.VITE_SOME_KEY)
 
@@ -23,23 +29,65 @@ export default function Login() {
       ...prevData,
       [name]: value,
     }));
+
+    // Reset validation errors on input change
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   }
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    console.log(formData);
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        email: "Please enter a valid email address",
+      }));
+      return;
+    }
 
-    // setFormData({
-    //   fullName: "",
-    //   email: "",
-    //   password: "",
-    //   confirmPassword: "",
-    // });
+    // All validations passed, proceed with form submission
+    // console.log(formData);
+
+    axios({
+      method: "post",
+      url: `http://localhost:8080/api/v1/login`,
+      data: formData,
+    })
+      .then((res) => {
+        // console.log("Response:", res);
+        toast.success("Login Successfully!");
+
+        setLogin(res.data);
+        setTimeout(() => {
+          handleNavigate();
+        }, 1000);
+      })
+      .catch((error) => {
+        if (error?.response?.data?.message) {
+          toast.error(error?.response?.data?.message);
+          return;
+        }
+
+        // toast.error(error.message);
+        console.error("Error:", error);
+      });
+
+    // Add any further logic here, such as sending the data to a server
   }
 
+  const state = location.state;
+  const fromPathname = state?.from || "";
+  // console.log(fromPathname);
+
+  // getting the state which is comming from private route
+
   const handleNavigate = () => {
-    navigate(`/`);
+    navigate(`/${fromPathname}`);
   };
   const handleNavigateHome = () => {
     navigate(`/`);
