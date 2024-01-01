@@ -68,7 +68,7 @@ const Register = () => {
 
     axios({
       method: "post",
-      url: `http://localhost:8080/api/v1/register`,
+      url: `http://localhost:3001/api/v1/register`,
       data: data,
     })
       .then((res) => {
@@ -81,16 +81,16 @@ const Register = () => {
       .catch((error) => {
         // Handle errors here
 
-        if (
-          error?.response?.data?.data?.code &&
-          error?.response?.data?.data?.code == "11000"
-        ) {
-          return toast.error("Email already exist !");
-        }
-        if (error?.response?.data?.error?.details[0]?.message) {
-          toast.error(error?.response?.data?.error?.details[0]?.message);
-          return;
-        }
+        // if (
+        //   error?.response?.data?.data?.code &&
+        //   error?.response?.data?.data?.code == "11000"
+        // ) {
+        //   return toast.error("Email already exist !");
+        // }
+        // if (error?.response?.data?.error?.details[0]?.message) {
+        //   toast.error(error?.response?.data?.error?.details[0]?.message);
+        //   return;
+        // }
 
         // toast.error(error.message);
         console.error("Error:", error);
@@ -122,12 +122,12 @@ const Register = () => {
         Back to Home
       </button>
       <div
-        className="max-sm:w-full sm:min-w-[400px] sm:shadow-[0_0_2px_#000]  m-auto   min-h-full  flex-col  px-6 py-12 lg:px-8"
+        className="max-sm:w-full sm:min-w-[600px] sm:shadow-[0_0_2px_#000]  m-auto   min-h-full  flex-col   px-6 py-12 lg:px-8"
         // style={{
         //   boxShadow: "0 0 2px #000",
         // }}
       >
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="sm:mx-auto  sm:w-full sm:max-w-sm">
           <img
             className="mx-auto h-16  w-auto"
             src="/logo.png"
@@ -138,9 +138,9 @@ const Register = () => {
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="mt-10 sm:mx-auto sm:w-full ">
           <form
-            className="space-y-6"
+            className="  grid gap-4  md:grid-cols-2  "
             onSubmit={handleSubmit}
             action="#"
             method="POST"
@@ -243,10 +243,10 @@ const Register = () => {
               </div>
             </div>
 
-            <div>
+            <div className="col-span-2">
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full    justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign Up
               </button>

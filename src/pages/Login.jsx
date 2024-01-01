@@ -55,7 +55,7 @@ export default function Login() {
 
     axios({
       method: "post",
-      url: `http://localhost:8080/api/v1/login`,
+      url: `http://localhost:3001/api/v1/login`,
       data: formData,
     })
       .then((res) => {

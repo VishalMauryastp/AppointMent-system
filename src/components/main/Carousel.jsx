@@ -58,7 +58,7 @@ const Carousel = ({ data }) => {
     setSelectedButton(dateInEN_GB(date));
     const formattedDate = dateInEN_GB(date);
     setSelecteDate(formattedDate);
-    console.log("Clicked date:", formattedDate);
+    // console.log("Clicked date:", formattedDate);
   };
 
   const timeSlots = [
@@ -75,7 +75,7 @@ const Carousel = ({ data }) => {
   const TimeSlots = ({ timeSlots }) => {
     const handleButtonClick = (selectedTime) => {
       setselectedTime(selectedTime);
-      console.log("Clicked time:", selectedTime);
+      // console.log("Clicked time:", selectedTime);
     };
 
     return (
@@ -105,9 +105,8 @@ const Carousel = ({ data }) => {
     );
   };
 
-  console.log(selectedButton);
-
-  return (
+  // console.log(selectedButton);
+return (
     <div>
       <Swiper
         slidesPerView={3}
@@ -150,7 +149,7 @@ const Carousel = ({ data }) => {
         <TimeSlots timeSlots={timeSlots} />
       </div>
       <button
-        className="text-black px-16 mt-12 ml-auto mr-auto sm:mr-0 block py-3 bg-green-600 text-lg font-semibold"
+        className="text-white rounded hover:bg-slate-300 transition-colors px-16 mt-12 ml-auto mr-auto sm:mr-0 block py-3 bg-green-600 text-lg font-semibold"
         onClick={() => {
           navigate("/summery");
           setDoctor(completeData);
